@@ -8,7 +8,7 @@ public class Property extends Space implements Buyable{
     //private boolean _isHotel;
     private int[] _rents;//_rents[i] is price with i houses
     private int _type;//used for monopoly
-    private static boolean _isMonoply;
+    private boolean _isMonopoly;
 
     public Property(int type, int price, String name, int[] rents){
 	super(name);
@@ -18,6 +18,7 @@ public class Property extends Space implements Buyable{
 	_housePrice=50*(1+(type-1)/2);
 	_rents=rents;
 	_type=type;
+	_isMonopoly=false;
     }
     
     public int getPrice(){
@@ -40,8 +41,16 @@ public class Property extends Space implements Buyable{
 	return _numHouses;
     }
 
+    public boolean isMonoply(){
+	return _isMonopoly;
+    }
+
     public int rent(){
 	int a=numHouses();
+	//Rent doubled in monopoly
+	if (a==0 && isMonoply())
+	    return 2*_rents[0];
+
 	return _rents[a];
     }
 
